@@ -29,6 +29,7 @@ OS
 Data Struct
 ----------
 - graph.c		**邻接矩阵构造的图的一些应用和算法**
+- huffman_tree.c **哈夫曼树构造前缀编码**
 
 Algorithm
 ----------
