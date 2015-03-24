@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -64,6 +65,66 @@ int lis(int A[], int n)
 }
 
 
+//二维DP
+//平面上有N*M个格子，每个格子中放着一定数量的苹果。你从左上角的格子开始， 每一步只能向下走或是向右走，
+//每次走到一个格子上就把格子里的苹果收集起来， 这样下去，你最多能收集到多少个苹果。
+
+//状态转移方程：s[i][j] = A[i][j] + max｛s[i -1][j] , s[i][j - 1]｝
+//注意二维数组怎么传参，行存储
+
+int most_apple(int **A,  int row, int column)
+{
+	int **S = (int **)new int[row];
+	for(int i = 0; i < row; i++)
+	{
+		S[i] = new int[column];
+	}
+
+	for(int i = 0; i < row; i++)
+	{
+		S[i][0] = A[i][0];
+	}
+
+	for(int i = 0; i < column; i++)
+	{
+		S[0][i] = A[0][i];
+	}
+
+	for(int i = 1; i < row; i++)
+	{
+		for (int j = 1; j < column; ++j)
+		{
+			S[i][j] = max(S[i - 1][j], S[i][j -1]) + A[i][j];
+		}
+	}
+
+	int rtn = S[row - 1][column - 1];
+	for(int i = 0; i < row; i++)
+	{
+		delete S[i];
+	}
+	delete S;
+
+	return rtn;
+}
+
+//无向图G有N个结点(1<N<=1000)及一些边，每一条边上带有正的权重值。 找到结点1到结点N的最短路径，或者输出不存在这样的路径。
+//采用floyd算法，思路也是DP
+//参见coding_fun/ds/graph.c ——>Floyd(Graph *G)	立方级的算法
+
+
+//带状态的DP
+//无向图G有N个结点，它的边上带有正的权重值。
+//你从结点1开始走，并且一开始的时候你身上带有M元钱。如果你经过结点i， 那么你就要花掉S[i]元(可以把这想象为收过路费)。
+//如果你没有足够的钱， 就不能从那个结点经过。在这样的限制条件下，找到从结点1到结点N的最短路径。 或者输出该路径不存在。
+//如果存在多条最短路径，那么输出花钱数量最少的那条。 限制：1<N<=100 ; 0<=M<=100 ;
+//参见coding_fun/ds/graph.c ---->Dijkstra(Graph *G) 平方级算法
+
+
+
+
+
+
 
 
 
@@ -72,7 +133,16 @@ int main(int argc, char const *argv[])
 	//test min coin
 	cout << MinCoin(11) << endl;
 
+	//test lis
 	int a[] = {5, 3, 4, 8, 6, 7};
 	cout << lis(a, 6) << endl;
+
+	//test most_apple
+	int *A[2];
+	int B[][3] = {1,2,3,4,5,6};
+	A[0] = B[0];
+	A[1] = B[1];
+	//注意上面的二维数组传参
+	cout << most_apple(A, 2, 3) << endl;
 	return 0;
 }
