@@ -10,6 +10,7 @@ using namespace std;
 
 struct TreeNode {
 	int val;
+	int visited; // 专门给非递归后序遍历用的
 	struct TreeNode *left;
 	struct TreeNode *right;
 };
@@ -19,7 +20,7 @@ typedef void ( *CallBack)(BitTree);
 
 void delete_Node(BitTree T)
 {
-	//cout << "delete Node " << T->val << endl;
+	cout << "delete Node " << T->val << endl;
 	delete []T;
 	T = NULL;
 }
@@ -124,32 +125,24 @@ void inorder_recursive(BitTree T)
 }
 
 //非递归中序遍历
-typedef struct 
-{
-	BitTree Node;
-	int visited;
-}VNode;
 void inorder_norecursive(BitTree T)
 {
-	if(T == NULL)
-		return;
 	stack<BitTree> bt_stack;
-	bt_stack.push(T);
-	BitTree Cur = NULL;
-	while(!bt_stack.empty())
+	BitTree Cur = T;
+	while(Cur != NULL || !bt_stack.empty())
 	{
-		while((Cur = bt_stack.top()) && Cur->left != NULL )
+		while(Cur != NULL)
 		{
-			bt_stack.push(Cur->left);
+			bt_stack.push(Cur);
+			Cur =  Cur->left;
 		}
 
-		Cur = bt_stack.top();
-		visit(Cur, print_Node);
-		bt_stack.pop();
-
-		if(Cur->right != NULL)
+		if(!bt_stack.empty())
 		{
-			bt_stack.push(Cur->right);
+			Cur = bt_stack.top();
+			visit(Cur, print_Node);
+			bt_stack.pop();
+			Cur = Cur->right;
 		}
 	}
 }
@@ -166,7 +159,42 @@ void postorder_recursive(BitTree T)
 }
 
 //非递归后序遍历
+void postorder_norecursive(BitTree T)
+{
+	stack<BitTree> bt_stack;
+	BitTree Cur = NULL;
+	if(T != NULL)
+	{
+		T->visited = 0;
+		bt_stack.push(T);
+	}
 
+	while(!bt_stack.empty())
+	{
+		Cur = bt_stack.top();
+		bt_stack.pop();
+		if(Cur->visited == 1)
+		{
+			visit(Cur, print_Node);
+		}
+		else
+		{
+			Cur->visited = 1;
+			bt_stack.push(Cur);
+			if(Cur->right != NULL)
+			{
+				Cur->right->visited = 0;
+				bt_stack.push(Cur->right);
+			}
+			if(Cur->left != NULL)
+			{
+				Cur->left->visited = 0;
+				bt_stack.push(Cur->left);
+			}
+		}
+	}
+
+}
 
 
 
@@ -177,6 +205,7 @@ int main(int argc, char const *argv[])
 {
 	BitTree T= (BitTree) new char[sizeof(struct TreeNode)]; 
 	T->val = 32;
+	T->left = T->right = NULL;
 	assert(T != NULL);
 	init_tree(T);
 	cout << "pre order : "<< endl;
@@ -187,6 +216,10 @@ int main(int argc, char const *argv[])
 	inorder_recursive(T);
 	cout << "in order in no rec : " << endl;
 	inorder_norecursive(T);
+	cout << "post order : " << endl;
+	postorder_recursive(T);
+	cout << "post order in no rec : " << endl;
+	//postorder_norecursive(T);
 	cout << "destory tree " << endl;
 	destroy_tree(T);
 
