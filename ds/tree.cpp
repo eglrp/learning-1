@@ -193,7 +193,33 @@ void postorder_norecursive(BitTree T)
 			}
 		}
 	}
+}
 
+
+//非递归层序遍历
+void levelorder(BitTree T)
+{
+	deque<BitTree> bt_queue;
+	BitTree Cur = NULL;
+	if(T != NULL)
+	{
+		bt_queue.push_back(T);
+	}
+
+	while(!bt_queue.empty())
+	{
+		Cur = bt_queue.front();
+		visit(Cur, print_Node);
+		bt_queue.pop_front();
+		if(Cur->right != NULL)
+		{
+			bt_queue.push_back(Cur->right);
+		}
+		if(Cur->left != NULL)
+		{
+			bt_queue.push_back(Cur->left);
+		}
+	}
 }
 
 
@@ -219,9 +245,13 @@ int main(int argc, char const *argv[])
 	cout << "post order : " << endl;
 	postorder_recursive(T);
 	cout << "post order in no rec : " << endl;
-	//postorder_norecursive(T);
+	postorder_norecursive(T);
+	cout << " level order : " << endl;
+	levelorder(T);
 	cout << "destory tree " << endl;
 	destroy_tree(T);
+
+
 
 
 	return 0;
