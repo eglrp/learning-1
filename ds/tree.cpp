@@ -65,6 +65,50 @@ void init_tree(BitTree T)
 	}
 }
 
+//create a tree on OJ
+TreeNode *create_tree_oj(int a[], int len)
+{
+	TreeNode * head = (TreeNode *)new char[sizeof(struct TreeNode)];
+	if(head == NULL)
+	{
+		return head;
+	}
+
+	head->val = a[0];
+	head->left = head->right = NULL;
+	deque<TreeNode *>tn_deque;
+	tn_deque.push_back(head);
+	int index = 0;
+	TreeNode *cur = NULL;
+	TreeNode *temp = NULL;
+
+	while(!tn_deque.empty() && index < len)
+	{
+		cur = tn_deque.front();
+		if(++index && index < len && a[index] != -1)
+		{
+			temp = (TreeNode *)new char[sizeof(struct TreeNode)];
+			temp->val = a[index];
+			temp->left = temp->right = NULL;
+			cur->left = temp;
+			tn_deque.push_back(temp);
+		}
+
+		if(++index && index < len && a[index] != -1)
+		{
+			temp = (TreeNode *)new char[sizeof(struct TreeNode)];
+			temp->val = a[index];
+			temp->left = temp->right = NULL;
+			cur->right = temp;
+			tn_deque.push_back(temp);
+		}
+		tn_deque.pop_front();
+	}
+
+	return head;
+}
+
+
 //递归后序删除
 void destroy_tree(BitTree T)
 {
@@ -211,13 +255,13 @@ void levelorder(BitTree T)
 		Cur = bt_queue.front();
 		visit(Cur, print_Node);
 		bt_queue.pop_front();
-		if(Cur->right != NULL)
-		{
-			bt_queue.push_back(Cur->right);
-		}
 		if(Cur->left != NULL)
 		{
 			bt_queue.push_back(Cur->left);
+		}
+		if(Cur->right != NULL)
+		{
+			bt_queue.push_back(Cur->right);
 		}
 	}
 }
@@ -229,11 +273,15 @@ void levelorder(BitTree T)
 
 int main(int argc, char const *argv[])
 {
+	/*
 	BitTree T= (BitTree) new char[sizeof(struct TreeNode)]; 
 	T->val = 32;
 	T->left = T->right = NULL;
 	assert(T != NULL);
 	init_tree(T);
+	*/
+	int a[] = {3,9,20,-1,-1,15,7};
+	BitTree T =  create_tree_oj(a, 7);
 	cout << "pre order : "<< endl;
 	preorder_recursive(T);
 	cout << " pre order in no rec :" <<endl;

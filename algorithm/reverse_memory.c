@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 //reverse the memory block
 //goal: |12345| -> |54321|
@@ -41,11 +42,12 @@ void *swapAdjacentMemory(void *memory, const size_t headsize, const size_t total
 		return memory;
 	if(headsize >= totalsize)
 		return memory;
-	reverseMemory(memory, headsize);
-	reverseMemory(memory + headsize, totalsize - headsize);
-	reverseMemory(memory, totalsize);
+	char *ptr = (char *)memory;
+	reverseMemory(ptr, headsize);
+	reverseMemory(ptr + headsize, totalsize - headsize);
+	reverseMemory(ptr, totalsize);
 
-	return memory;
+	return ptr;
 }
 
 /*
@@ -70,29 +72,59 @@ void *swapNonAdjacentMemory(void *memory, const size_t headsize, const size_t en
 	if(headsize >= totalsize || endsize >= totalsize)
 		return memory;
 
-	reverseMemory(memory, headsize);
-	reverseMemory(memory + headsize, totalsize - endsize - headsize);
-	reverseMemory(memory + totalsize - endsize, endsize);
-	reverseMemory(memory, totalsize);
+	char *ptr = (char *)memory;
+
+	reverseMemory(ptr, headsize);
+	reverseMemory(ptr + headsize, totalsize - endsize - headsize);
+	reverseMemory(ptr + totalsize - endsize, endsize);
+	reverseMemory(ptr, totalsize);
+
+	return ptr;
 }
 
 
 //goal: "hello world fyliu." -> "fyliu. world hello"
+//采用分治的思想处理
+
+void reverseLenWords(char *s, const size_t slen)
+{
+	if(s == NULL)
+		return;
+	if(slen < 2)
+		return;
+	for(size_t index = 0; index < slen; index++)
+	{
+		if(s[index] == ' ')
+		{
+			reverseLenWords(s + index + 1, slen - index - 1);
+			swapNonAdjacentMemory(s, index, slen - index - 1, slen);
+			break;
+		}
+	}
+
+}
+
 void reverseWords(char *s)
 {
-
+	size_t len = strlen(s);
+	reverseLenWords(s, len);
 }
 
 
 int main(int argc, char const *argv[])
 {
-	char test[] = "hello12345";
+	//printf("%s\n", "hello world");
+	//char test[] = "hello12345";
 	//reverseMemory(test, 10);
-	swapAdjacentMemory(test, 5, 10);
-	printf("%s\n", test);
+	//swapAdjacentMemory(test, 5, 10);
+	//printf("%s\n", test);
 
-	char test2[] = "helloxxxyy12345";
-	swapNonAdjacentMemory(test2, 5, 5, 15);
-	printf("%s\n", test2);
+	//char test2[] = "helloxxxyy12345";
+	//swapNonAdjacentMemory(test2, 5, 5, 15);
+	//printf("%s\n", test2);
+
+	char test3[] = "hello world fyliu";
+	reverseWords(test3);
+	printf("%s\n", test3);
 	return 0;
 }
