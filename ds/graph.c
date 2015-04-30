@@ -318,6 +318,10 @@ int Floyd(Graph *G)
 }
 
 //Dijkstra算法，求图的最短路径
+int Dijkstra(Graph *G, Gnode *s)
+{
+
+}
 
 
 

@@ -9,6 +9,8 @@ C/C++
 - function.cpp		**boost::function 用法实例**
 - iostream_test.cpp	**iostream用法实例**
 - plain.cpp			**C++写的一个简易加密工具**
+- callback.cpp		**普通的函数指针访问类里面的成员函数。不需要用bind/function**
+
 
 
  
@@ -34,6 +36,10 @@ Data Struct
 
 Algorithm
 ----------
+- dijkstra.cpp	**dijkstra算法实现**
+- dp.cpp			**dp示列**
+- substring.c		**有关子串和序列的问题**
+- reverseString.c	**翻转字符串**
 
 
 

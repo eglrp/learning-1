@@ -63,6 +63,6 @@ struct node
 
 void dijkstra(Graph *G, int s)	//s :源节点的num
 {
-
+	for()
 }
 
