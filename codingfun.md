@@ -10,6 +10,7 @@ C/C++
 - iostream_test.cpp	**iostream用法实例**
 - plain.cpp			**C++写的一个简易加密工具**
 - callback.cpp		**普通的函数指针访问类里面的成员函数。不需要用bind/function**
+- excepction.cpp		**异常处理示列**
 
 
 

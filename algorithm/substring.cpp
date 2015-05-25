@@ -89,7 +89,7 @@ string LongestCommonSubstring(const string &str1, const string &str2)
 	return out;
 }
 
-//最大子序列
+//最大连续子序列
 //采用滚动数组
 vector<int> MaxSubArray(vector<int> & l)
 {
@@ -121,6 +121,51 @@ vector<int> MaxSubArray(vector<int> & l)
 	}
 	return out;
 }
+
+//最大连续子序列
+//采用DP
+//EndMax[n] = max{EndMax[n - 1] + a[n] , a[n]}
+//SubMax[n] = max{SubMax[n - 1], EndMax[n]}
+vector<int> MaxSubArray_DP(vector<int> & l)
+{
+	int EndMaxBegin = 0, EndMaxEnd = 0;
+	int SubMaxBegin = 0, SubMaxEnd = 0;
+
+	int EndMax = 0, SubMax = 0;
+
+	std::vector<int> v;
+
+	for(int i = 0; i < l.size(); i++)
+	{
+		if(EndMax + l[i] < l[i] )
+		{
+			EndMax = l[i];
+			EndMaxBegin = i;
+			EndMaxEnd = i;
+		}
+		else
+		{
+			EndMax = EndMax + l[i];
+			EndMaxEnd = i;
+		}
+
+		if(SubMax < EndMax)
+		{
+			SubMax = EndMax;
+			SubMaxBegin = EndMaxBegin;
+			SubMaxEnd = EndMaxEnd;
+		}
+	}
+
+	for (int i = SubMaxBegin; i <= SubMaxEnd; ++i)
+	{
+		v.push_back(l[i]);
+	}
+
+	return v;
+}
+
+
 
 //最长递增子序列 LIS：longest increasing subsequence
 //一个序列的最长递增子序列，是以该序列所有节点为尾节点的最长子序列。
@@ -169,24 +214,67 @@ int lis(vector<int> &l, vector<int> &out)
 //字符串编辑距离
 
 
+//求最长的不重复字符子串
+int lengthOfLongestSubstring(string s) {
+	int EndStringBegin = 0, EndStringEnd = 0;
+	int SubStringBegin = 0, SubStringEnd = 0;
+	map<char , int > my_map;
+	int maxlen = 0;
+
+	for (int i = 0; i < s.size(); ++i)
+	{
+	 	if(my_map.count(s[i]) != 0)
+	 	{
+	 		for(int j = my_map[s[i]] - 1; j >= EndStringBegin; j--)
+	 		{
+	 			my_map.erase(s[j]);
+	 		}
+	 		EndStringBegin = my_map[s[i]] + 1;
+	 		EndStringEnd = i;
+	 		cout << EndStringBegin << " " << EndStringEnd << endl;
+	 		my_map[s[i]] = i;
+	 	}
+	 	else
+	 	{
+	 		EndStringEnd = i;
+	 		my_map[s[i]] = i;
+
+	 	}
+
+	 	if(EndStringEnd - EndStringBegin  + 1 > maxlen)
+	 	{
+	 		maxlen = EndStringEnd - EndStringBegin + 1;
+	 		SubStringBegin = EndStringBegin;
+	 		SubStringEnd = EndStringEnd;
+	 	}
+	}
+
+	return maxlen; 
+}
+
+
 
 int main(int argc, char const *argv[])
 {
+
 /*
 	string out;
 	out = LongestCommonSubstring("abcd", "abc");
 	cout << out<< endl;
+*/
 
 	int a[] = {5, -6, 4, 2};
 	std::vector<int> v(a, a + 4);
-	std::vector<int> out = MaxSubArray(v);
+	std::vector<int> out = MaxSubArray_DP(v);
 	cout << "[ ";
 	for (int i = 0; i < out.size(); ++i)
 	{
 		cout << out[i] << " ";
 	}
 	cout << "]"<<endl;
-*/
+
+
+/*
 	int a[] = {5, -6, 4, 2, 3};
 	std::vector<int> v(a, a + 5);
 	std::vector<int> out;
@@ -198,6 +286,7 @@ int main(int argc, char const *argv[])
 		cout << out[i] << " ";
 	}
 	cout << "]"<< endl;
+*/
 
 
 	return 0;
