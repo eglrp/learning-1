@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -119,6 +120,27 @@ int most_apple(int **A,  int row, int column)
 //如果你没有足够的钱， 就不能从那个结点经过。在这样的限制条件下，找到从结点1到结点N的最短路径。 或者输出该路径不存在。
 //如果存在多条最短路径，那么输出花钱数量最少的那条。 限制：1<N<=100 ; 0<=M<=100 ;
 //参见coding_fun/ds/graph.c ---->Dijkstra(Graph *G) 平方级算法
+
+
+
+
+
+
+//投资问题
+//投资资金 a， 项目总数n，每个项目的利润是Gi (1 << i << n), 求最大的profile
+//f(i) 代表前i的项目共投资资金x的最大收益，问题转化成求f(a)的问题
+//f(i) = Gi * z + f(i -1) 
+//追踪函数:投资的
+int max_profile(vector<vector<int> > profit, int resoure)
+{
+	//k为1时可知F(1) ~F(n)
+	Fk(x) = max {fk(xk) + Fk-1(x - xk)} k > 1  (0 <= xk <= 1)
+}
+
+
+//买票问题
+//初值 F(1) = T1 F(2) = R1
+//递归公式 F(k) = max {F(k - 1) + Tk, F(k - 2) + R(k-1)}  (2 < k <= n)
 
 
 

@@ -209,6 +209,37 @@ int lis(vector<int> &l, vector<int> &out)
 	return max;
 }
 
+//LIS DP
+//递推表达式
+//
+//时间复杂度O(n^2)
+int lis_dp(vector<int> &l)
+{
+	if(l.size() == 0)
+		return 0;
+	std::vector<int> dp(l.size(), 1);
+	int max = dp[1];
+	for (int i = 2; i < l.size(); ++i)
+	{
+		for(int j = 1; j < i; j++)
+		{
+			if(l[i] > l[j] && dp[j] + 1 > dp[i])
+			{
+				dp[i] = dp[j] + 1;
+			}
+		}
+		if(dp[i] > max)
+		{
+			max = dp[i];
+		}
+	}
+
+	return max;
+}
+
+
+
+
 //最长公共子序列
 
 //字符串编辑距离
