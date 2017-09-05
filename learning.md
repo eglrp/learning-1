@@ -1,6 +1,8 @@
 ## # Code List  # ##
 
-C/C++
+学习一些语法特性、数据结构、算法、设计模式时写的测试代码
+
+####C/C++
 ----------
 - screen.cpp			**简易的视图模拟类**
 - checkedptr.cpp 	**一个演示C++ 操作符重载的简单类**
@@ -14,34 +16,32 @@ C/C++
 
 
 
- 
 
-
-	
-	
-	
-
-Network
+####Network
 ----------
 
 
-OS
+####OS
 ----------
 
 
-Data Struct
+####Data Struct
 ----------
 - graph.c		**邻接矩阵构造的图的一些应用和算法**
 - huffman_tree.c **哈夫曼树构造前缀编码**
 - tree.cpp		**二叉树递归与非递归遍历**
 
-Algorithm
+####Algorithm
 ----------
 - dijkstra.cpp	**dijkstra算法实现**
 - dp.cpp			**dp示列**
 - substring.c		**有关子串和序列的问题**
 - reverseString.c	**翻转字符串**
 
+####Task
+----------
+
+一个可扩展的插件开发模式的实现
 
 
 
